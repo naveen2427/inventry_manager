@@ -4,6 +4,8 @@ import {
   Layers, MessageSquare 
 } from 'lucide-react';
 
+import { API_BASE_URL } from '../config';
+
 export default function Stock({ triggerToast }) {
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +13,7 @@ export default function Stock({ triggerToast }) {
   const fetchTransactions = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/transactions');
+      const res = await fetch(`${API_BASE_URL}/api/transactions`);
       if (!res.ok) throw new Error('Failed to load transaction history');
       const data = await res.json();
       setTransactions(data);

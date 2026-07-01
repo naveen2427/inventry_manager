@@ -3,7 +3,7 @@ import {
   ShoppingBag, Search, Plus, Minus, Trash2, IndianRupee, 
   CreditCard, Calendar, User, Eye, EyeOff, ClipboardList, RefreshCw 
 } from 'lucide-react';
-
+import { API_BASE_URL } from '../config';
 export default function Sales({ triggerToast }) {
   const [products, setProducts] = useState([]);
   const [sales, setSales] = useState([]);
@@ -21,11 +21,11 @@ export default function Sales({ triggerToast }) {
   const fetchSalesAndProducts = async () => {
     setLoading(true);
     try {
-      const prodRes = await fetch('http://localhost:5000/api/products');
+      const prodRes = await fetch(`${API_BASE_URL}/api/products`);
       const prodData = await prodRes.json();
       setProducts(prodData);
 
-      const salesRes = await fetch('http://localhost:5000/api/sales');
+      const salesRes = await fetch(`${API_BASE_URL}/api/sales`);
       const salesData = await salesRes.json();
       setSales(salesData);
     } catch (err) {
@@ -107,7 +107,7 @@ export default function Sales({ triggerToast }) {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/sales', {
+      const res = await fetch(`${API_BASE_URL}/api/sales`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

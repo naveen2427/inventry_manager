@@ -7,6 +7,7 @@ import {
   Package, TrendingUp, AlertTriangle, AlertOctagon, IndianRupee, Users, Award 
 } from 'lucide-react';
 import MetricCard from '../components/MetricCard';
+import { API_BASE_URL } from '../config';
 
 const COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#3b82f6', '#ec4899', '#8b5cf6'];
 
@@ -17,14 +18,14 @@ export default function Dashboard({ setActiveTab }) {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/dashboard/stats');
+      const res = await fetch(`${API_BASE_URL}/api/dashboard/stats`);
       if (!res.ok) throw new Error('Failed to load stats');
       const data = await res.json();
       setStats(data);
       setError(null);
     } catch (err) {
       console.error(err);
-      setError('Could not connect to Flask backend. Please make sure the server is running on http://localhost:5000');
+      setError(`Could not connect to Flask backend. Please make sure the server is running on ${API_BASE_URL}`);
     } finally {
       setLoading(false);
     }

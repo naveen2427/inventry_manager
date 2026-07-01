@@ -4,6 +4,7 @@ import {
   User, CheckCircle, XCircle, RefreshCw 
 } from 'lucide-react';
 import Modal from '../components/Modal';
+import { API_BASE_URL } from '../config';
 
 export default function Suppliers({ triggerToast }) {
   const [suppliers, setSuppliers] = useState([]);
@@ -22,7 +23,7 @@ export default function Suppliers({ triggerToast }) {
   const fetchSuppliers = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/suppliers');
+      const res = await fetch(`${API_BASE_URL}/api/suppliers`);
       if (!res.ok) throw new Error('Failed to load suppliers');
       const data = await res.json();
       setSuppliers(data);
@@ -63,8 +64,8 @@ export default function Suppliers({ triggerToast }) {
     e.preventDefault();
     const isEdit = !!selectedSupplier;
     const url = isEdit 
-      ? `http://localhost:5000/api/suppliers/${selectedSupplier.id}`
-      : 'http://localhost:5000/api/suppliers';
+      ? `${API_BASE_URL}/api/suppliers/${selectedSupplier.id}`
+      : `${API_BASE_URL}/api/suppliers`;
     const method = isEdit ? 'PUT' : 'POST';
 
     try {
@@ -91,7 +92,7 @@ export default function Suppliers({ triggerToast }) {
     if (!window.confirm('Are you sure you want to delete this supplier? It will fail if products are currently linked to this supplier.')) return;
     
     try {
-      const res = await fetch(`http://localhost:5000/api/suppliers/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/suppliers/${id}`, {
         method: 'DELETE'
       });
       const data = await res.json();

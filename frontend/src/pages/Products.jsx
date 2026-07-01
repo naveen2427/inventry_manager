@@ -4,6 +4,7 @@ import {
   ArrowUpRight, ArrowDownRight, Package, IndianRupee, RefreshCw 
 } from 'lucide-react';
 import Modal from '../components/Modal';
+import { API_BASE_URL } from '../config';
 
 export default function Products({ triggerToast }) {
   const [products, setProducts] = useState([]);
@@ -31,11 +32,11 @@ export default function Products({ triggerToast }) {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const prodRes = await fetch('http://localhost:5000/api/products');
+      const prodRes = await fetch(`${API_BASE_URL}/api/products`);
       const prodData = await prodRes.json();
       setProducts(prodData);
 
-      const suppRes = await fetch('http://localhost:5000/api/suppliers');
+      const suppRes = await fetch(`${API_BASE_URL}/api/suppliers`);
       const suppData = await suppRes.json();
       setSuppliers(suppData.filter(s => s.status === 'Active'));
     } catch (err) {
@@ -87,8 +88,8 @@ export default function Products({ triggerToast }) {
     e.preventDefault();
     const isEdit = !!selectedProduct;
     const url = isEdit 
-      ? `http://localhost:5000/api/products/${selectedProduct.id}`
-      : 'http://localhost:5000/api/products';
+      ? `${API_BASE_URL}/api/products/${selectedProduct.id}`
+      : `${API_BASE_URL}/api/products`;
     const method = isEdit ? 'PUT' : 'POST';
 
     try {
@@ -119,7 +120,7 @@ export default function Products({ triggerToast }) {
     }
 
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${selectedProduct.id}/adjust-stock`, {
+      const res = await fetch(`${API_BASE_URL}/api/products/${selectedProduct.id}/adjust-stock`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -147,7 +148,7 @@ export default function Products({ triggerToast }) {
     if (!window.confirm('Are you sure you want to delete this product? Historical sales logs may prevent deletion.')) return;
     
     try {
-      const res = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/api/products/${id}`, {
         method: 'DELETE'
       });
       const data = await res.json();
